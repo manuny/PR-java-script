@@ -65,3 +65,45 @@ const initialData = [
     ],
   },
 ];
+
+const mainDiv = document.querySelector(".div");
+
+let idProduct = 0;
+
+initialData.forEach((element) => {
+  // Название продукта
+  const product = document.createElement("h1");
+  product.textContent += element.product;
+  mainDiv.appendChild(product);
+
+  // Отзывы
+  const reviews = document.createElement("ol");
+  element.reviews.forEach((element) => {
+    idProduct = element.id;
+    reviews.innerHTML += `<li>${element.text} (ID ${idProduct})</li>`;
+  });
+  mainDiv.appendChild(reviews);
+
+  // Поле ввода отзыва
+  const inputText = document.createElement("input");
+  mainDiv.appendChild(inputText);
+
+  // Кнопка отправки отзыва
+  const btn = document.createElement("button");
+  btn.textContent = "Отправить";
+  btn.addEventListener("click", () => {
+    if (inputText.value.length >= 50 && inputText.value.length <= 500) {
+      idProduct++;
+      reviews.innerHTML += `<li>${inputText.value} (ID ${idProduct})</li>`;
+    } else {
+      errorMessage.textContent =
+        "Комментарий должен быть длинной не менее 50 и не более 500 символов";
+    }
+  });
+  mainDiv.appendChild(btn);
+
+  //Сообщение об ошибке
+  const errorMessage = document.createElement("p");
+  errorMessage.style.color = "RED";
+  mainDiv.appendChild(errorMessage);
+});

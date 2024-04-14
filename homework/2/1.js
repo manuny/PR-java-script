@@ -22,27 +22,31 @@ class Library {
   #books = [];
 
   constructor(books) {
-    if (
-      (arr) =>
-        arr.filter((item, index) => arr.indexOf(item) !== index).length === 0
-    ) {
-      this.#books = books;
+    if (!Array.isArray(books)) {
+      throw Error("Список книг не массив");
     } else {
-      throw Error("В списке книг содержаться дубликаты");
+      books.forEach((book) => {
+        if (this.#books.includes(book)) {
+          throw new Error(`В списке книг есть дубликаты: "${book}"!`);
+        } else {
+          this.#books.push(book);
+          return this.#books;
+        }
+      });
     }
   }
-  getAllBooks() {
+
+  get allBooks() {
     return this.#books;
   }
 
   addBook(title) {
     if (this.hasBook(title)) {
-      throw Error(`Такая "${title}" книга уже существует`);
-    } else {
-      this.#books.push(title);
-      return this.#books;
+      throw Error("Такая книга уже существует");
     }
+    this.#books.push(title);
   }
+
   removeBook(title) {
     if (
       (this.#books = this.#books.filter((bookTitle) => bookTitle !== title))
@@ -52,4 +56,27 @@ class Library {
       throw Error(`Книга "${title}" не существует`);
     }
   }
+  hasBook(title) {
+    if (this.#books.includes(title)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
+
+//const lib = new Library(["1", "2", "3", "3"]);
+//const lib = new Library("5");
+const lib = new Library(["1", "2", "3"]);
+console.log(lib.allBooks);
+
+// lib.addBook("2");
+lib.addBook("4");
+console.log(lib.allBooks);
+
+lib.removeBook("2");
+// lib.removeBook("6");
+console.log(lib.allBooks);
+
+console.log(lib.hasBook("1"));
+console.log(lib.hasBook("7"));

@@ -104,6 +104,6 @@ initialData.forEach((element) => {
 
   //Сообщение об ошибке
   const errorMessage = document.createElement("p");
-  errorMessage.style.color = "RED";
+  errorMessage.style.color = "red";
   mainDiv.appendChild(errorMessage);
 });
